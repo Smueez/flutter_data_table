@@ -45,7 +45,7 @@ class RowFieldWidgetModel<T> {
     this.inputType = InputType.string
   }){
     type ??= columnHeaderModel.columnType;
-    order ??= columnHeaderModel.sortOrder;
+    order ??= columnHeaderModel.orderNumber;
     columnName ??= columnHeaderModel.slug;
     fixedWidth ??= columnHeaderModel.fixedWidth;
     textAlign ??= columnHeaderModel.textAlign;

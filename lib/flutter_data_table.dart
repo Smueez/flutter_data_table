@@ -1,22 +1,33 @@
 library flutter_data_table;
 
+/// ================ export library ========================
+export 'package:flutter_data_table/utils/responsive_size.dart';
+export 'package:flutter_data_table/widget/column_header_widget_ui.dart';
+export 'package:flutter_data_table/widget/custom_check_box_widget.dart';
+export 'package:flutter_data_table/widget/row_field_widget_ui.dart';
+export 'models/column_header_model.dart';
+export 'models/column_widget_model.dart';
+export 'models/row_field_widget.dart';
+export 'models/row_widget.dart';
+export 'package:flutter_data_table/models/checkbox_widget_model.dart';
+
+/// ======================== import other library ====================
 import 'package:flutter/material.dart';
 import 'package:flutter_data_table/utils/responsive_size.dart';
 import 'package:flutter_data_table/widget/column_header_widget_ui.dart';
 import 'package:flutter_data_table/widget/custom_check_box_widget.dart';
 import 'package:flutter_data_table/widget/row_field_widget_ui.dart';
-
 import 'models/column_header_model.dart';
 import 'models/column_widget_model.dart';
 import 'models/row_field_widget.dart';
 import 'models/row_widget.dart';
 
-class CustomTableScreen extends StatefulWidget {
-  CustomTableScreen(
+class FlutterDataTable extends StatefulWidget {
+  FlutterDataTable(
       {required this.columnModel,
         required this.rowsData,
         this.colors,
-        this.isCheckBoxColumnAllowed = false,
+        this.isCheckBoxMultiSelectAllowed = false,
         this.sort,
         this.padding,
         this.isLoadMoreDataAllowed = true,
@@ -46,13 +57,13 @@ class CustomTableScreen extends StatefulWidget {
   final double? rowHeight;
   final double? columnHeight;
   final Function(List<RowWidgetModel> selectedRowList)? onRowSelectBuilder;
-  final bool isCheckBoxColumnAllowed;
+  final bool isCheckBoxMultiSelectAllowed;
 
   @override
-  State<CustomTableScreen> createState() => _CustomTableScreenState();
+  State<FlutterDataTable> createState() => _FlutterDataTableState();
 }
 
-class _CustomTableScreenState extends State<CustomTableScreen> {
+class _FlutterDataTableState extends State<FlutterDataTable> {
   String sortedColumnHeader = "";
   ScrollController innerVerticalController = ScrollController();
   bool isFixedWidthGiven = true;
@@ -61,10 +72,19 @@ class _CustomTableScreenState extends State<CustomTableScreen> {
   void initState() {
     super.initState();
     selectedRowList = [];
+    setColumnOrderNumber();
     if(widget.verticalController != null){
       innerVerticalController = widget.verticalController!;
     }
     innerVerticalController.addListener(verticalScrollListener);
+  }
+
+  setColumnOrderNumber(){
+    for(int i = 0; i < widget.columnModel.columnsList.length - 1; i++){
+      if(widget.columnModel.columnsList[i].orderNumber == null){
+        widget.columnModel.columnsList[i].orderNumber = i;
+      }
+    }
   }
 
   isTakeTotalWidth(){
@@ -177,9 +197,9 @@ class _CustomTableScreenState extends State<CustomTableScreen> {
 
   List<Widget> columnHeaderList() {
     List<Widget> list = [];
-    widget.columnModel.columnsList.sort((a, b) =>a.sortOrder.compareTo(b.sortOrder));
+    widget.columnModel.columnsList.sort((a, b) =>a.orderNumber??0.compareTo(b.orderNumber??0));
     // for (ColumnHeaderModel element in widget.columnModel.columnsList.getRange(0, widget.columnModel.columnsList.length - 1)) {
-    if(widget.isCheckBoxColumnAllowed){
+    if(widget.isCheckBoxMultiSelectAllowed){
       list.add(
           Container(
             padding: EdgeInsets.symmetric(vertical: Responsive.height(1, context)),
@@ -201,7 +221,7 @@ class _CustomTableScreenState extends State<CustomTableScreen> {
     for(int i = 0; i < widget.columnModel.columnsList.length - 1; i++){
 
       ColumnHeaderModel element = widget.columnModel.columnsList[i];
-      if(element.sortOrder == -1){
+      if(element.orderNumber == -1){
         continue;
       }
       list.add(
@@ -223,7 +243,7 @@ class _CustomTableScreenState extends State<CustomTableScreen> {
                     : null,
                 child: ColumnHeaderWidgetUI(
                   columnHeaderData: element,
-                  isSortable: widget.columnModel.isSortable && element.columnType == RowFieldWidgetType.textWidget,
+                  isSortable: widget.columnModel.isSortable && (element.columnType == RowFieldWidgetType.textWidget || element.columnType == RowFieldWidgetType.currency),
                   sortedColumn: sortedColumnHeader,
                   backgroundColor: widget.columnModel.backgroundColor,
                   style: widget.columnModel.style,
@@ -252,7 +272,7 @@ class _CustomTableScreenState extends State<CustomTableScreen> {
                   : null,
               child: ColumnHeaderWidgetUI(
                 columnHeaderData: widget.columnModel.columnsList.last,
-                isSortable: widget.columnModel.isSortable && widget.columnModel.columnsList.last.columnType == RowFieldWidgetType.textWidget,
+                isSortable: widget.columnModel.isSortable && (widget.columnModel.columnsList.last.columnType == RowFieldWidgetType.textWidget || widget.columnModel.columnsList.last.columnType == RowFieldWidgetType.currency),
                 sortedColumn: sortedColumnHeader,
                 backgroundColor: widget.columnModel.backgroundColor,
                 style: widget.columnModel.style,
@@ -302,7 +322,7 @@ class _CustomTableScreenState extends State<CustomTableScreen> {
     for (RowWidgetModel rowWidgetModel in widget.rowsData) {
       List<Widget> rowChildren = [];
       rowWidgetModel.rowFieldList.sort((a, b) => a.order!.compareTo(b.order!));
-      if(widget.isCheckBoxColumnAllowed){
+      if(widget.isCheckBoxMultiSelectAllowed){
         rowChildren.add(
             SizedBox(
               height: widget.rowHeight??Responsive.height(3, context),
@@ -339,7 +359,7 @@ class _CustomTableScreenState extends State<CustomTableScreen> {
         onTap: rowWidgetModel.rowClickable
             ? selectedRowList.isEmpty? rowWidgetModel.onRowClick : (){selectARow(true, rowWidgetModel);}
             : null,
-        onLongPress: widget.isCheckBoxColumnAllowed? (){
+        onLongPress: widget.isCheckBoxMultiSelectAllowed? (){
           selectARow(true, rowWidgetModel);
         }:null,
         child: Container(
