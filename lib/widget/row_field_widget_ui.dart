@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-
 import '../models/row_field_widget.dart';
 import 'custom_clickable_wiget_ui.dart';
 import 'custom_dropdown_widget_ui.dart';
@@ -33,6 +32,8 @@ class _RowFieldWidgetState extends State<RowFieldWidget> {
         return CustomDropDownWidgetUI(rowFieldWidgetModel: widget.rowFieldWidgetModel,);
       case RowFieldWidgetType.clickable:
         return CustomClickableWidgetUI(rowFieldWidgetModel: widget.rowFieldWidgetModel);
+      case RowFieldWidgetType.customWidget:
+        return widget.rowFieldWidgetModel.value is Widget? widget.rowFieldWidgetModel.value: const CustomTextWidgetUI(showLabel: "Empty Data", textStyle: TextStyle(),);
       default:
         return const SizedBox();
     }

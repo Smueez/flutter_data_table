@@ -52,7 +52,6 @@ class _MyHomePageState extends State<MyHomePage> {
   late ColumnWidgetModel columnWidgetModel;
 
   getColumnList(){
-    // List<ColumnHeaderModel> columnList = [];
     List<ColumnHeaderModel> columnList = [
       ColumnHeaderModel(
           id: 1,

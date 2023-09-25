@@ -56,5 +56,5 @@ class RowFieldWidgetModel<T> {
   }
 }
 
-enum RowFieldWidgetType {textWidget, editText, dropdown, clickable, currency, empty}
+enum RowFieldWidgetType {textWidget, editText, dropdown, clickable, currency, customWidget, empty}
 enum InputType {string, number}

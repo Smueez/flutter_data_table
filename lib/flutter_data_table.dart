@@ -40,11 +40,13 @@ class FlutterDataTable extends StatefulWidget {
         this.isRefreshAllowed = false,
         this.onRefresh,
         this.onRowSelectBuilder,
+        this.tableDecoration,
         super.key});
 
   final ColumnWidgetModel columnModel;
   List<RowWidgetModel> rowsData;
   final RowColor? colors;
+  final BoxDecoration? tableDecoration;
   final EdgeInsetsGeometry? padding;
   final ScrollController? verticalController;
   Function(List<RowWidgetModel> editedField)? onSave;
@@ -122,7 +124,7 @@ class _FlutterDataTableState extends State<FlutterDataTable> {
         child: Container(
           width: widget.columnModel.columnsList.length <= 4 && isFixedWidthGiven? Responsive.width(100, context) : null,
           clipBehavior: Clip.antiAlias,
-          decoration: BoxDecoration(
+          decoration: widget.tableDecoration?? BoxDecoration(
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(Responsive.pixel(2, context)),
                 topRight: Radius.circular(Responsive.pixel(2, context)),
