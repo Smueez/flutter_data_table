@@ -1,7 +1,7 @@
 name: flutter_data_table
-description: A new Flutter project.
+description: A new Flutter Data Table Package.
 version: 0.0.1
-homepage:
+homepage: https://github.com/Smueez/flutter_data_table.git
 
 environment:
   sdk: '>=3.0.0-218.1.beta <4.0.0'
@@ -16,10 +16,7 @@ dev_dependencies:
     sdk: flutter
   flutter_lints: ^2.0.0
 
-# For information on the generic Dart part of this file, see the
-# following page: https://dart.dev/tools/pub/pubspec
 
-# The following section is specific to Flutter packages.
 flutter:
 
   # To add assets to your package, add an assets section, like this:

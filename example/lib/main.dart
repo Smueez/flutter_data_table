@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_data_table/flutter_data_table.dart';
+import 'package:flutter_data_table/models/custom_table_dropdown_model.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,27 +13,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Flutter Data Table',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a blue toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
+
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Flutter Flutter Data Table Home Page'),
     );
   }
 }
@@ -50,8 +37,8 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
 
   late ColumnWidgetModel columnWidgetModel;
-
-  getColumnList(){
+  List<RowWidgetModel> rows = [];
+  ColumnWidgetModel getColumnList(){
     List<ColumnHeaderModel> columnList = [
       ColumnHeaderModel(
           id: 1,
@@ -64,70 +51,48 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       ColumnHeaderModel(
           id: 1,
-          slug: "sku",
-          label: "SKU NO",
+          slug: "name",
+          label: "Name",
           orderNumber: 1,
-          textAlign: TextAlign.start,
-          columnType: RowFieldWidgetType.textWidget
+          columnType: RowFieldWidgetType.textWidget,
+          // fixedWidth: 100
       ),
       ColumnHeaderModel(
           id: 1,
-          slug: "line_item_name",
-          label: "ITEMS",
+          slug: "income",
+          label: "Income",
           orderNumber: 2,
-          columnType: RowFieldWidgetType.textWidget,
-          textAlign: TextAlign.start,
-          fixedWidth: Responsive.width(20, context!)
+          columnType: RowFieldWidgetType.currency,
       ),
       ColumnHeaderModel(
           id: 1,
-          slug: "location_note",
-          label: "LOCATION & NOTES",
+          slug: "location",
+          label: "Location",
           orderNumber: 3,
-          columnType: RowFieldWidgetType.textWidget,
-          textAlign: TextAlign.start,
-          fixedWidth: Responsive.width(15, context)
+          columnType: RowFieldWidgetType.clickable,
+          // fixedWidth: 100
       ),
       ColumnHeaderModel(
           id: 1,
           slug: "quantity",
           label: "QUANTITY",
           orderNumber: 4,
-          textAlign: TextAlign.start,
           columnType: RowFieldWidgetType.textWidget
       ),
       ColumnHeaderModel(
           id: 1,
-          slug: "unit_markup_cost",
-          label: "UNIT COST",
+          slug: "gender",
+          label: "Gender",
           orderNumber: 5,
-          textAlign: TextAlign.start,
-          columnType: RowFieldWidgetType.textWidget
+          columnType: RowFieldWidgetType.dropdown
       ),
       ColumnHeaderModel(
           id: 1,
-          slug: "total_markup_cost",
-          label: "TOTAL COST",
+          slug: "image",
+          label: "Image",
           orderNumber: 6,
-          textAlign: TextAlign.start,
-          columnType: RowFieldWidgetType.textWidget
-      ),
-      ColumnHeaderModel(
-          id: 1,
-          slug: "approval_status",
-          label: "APPROVAL",
-          orderNumber: 7,
-          textAlign: TextAlign.start,
-          columnType: RowFieldWidgetType.textWidget
-      ),
-      ColumnHeaderModel(
-          id: 1,
-          slug: "note",
-          label: "CLIENT NOTES",
-          orderNumber: 8,
-          columnType: RowFieldWidgetType.textWidget,
-          textAlign: TextAlign.start,
-          fixedWidth: Responsive.width(15, context!)
+          columnType: RowFieldWidgetType.customWidget,
+          textAlign: TextAlign.center
       )
     ];
     return ColumnWidgetModel(
@@ -141,6 +106,135 @@ class _MyHomePageState extends State<MyHomePage> {
         )
     );
   }
+  setRow(){
+    RowWidgetModel row1 = RowWidgetModel(
+        rowFieldList: [
+          RowFieldWidgetModel(
+              columnHeaderModel: columnWidgetModel.columnsList[0],
+              value: 1
+          ),
+          RowFieldWidgetModel(
+              columnHeaderModel: columnWidgetModel.columnsList[1],
+              value: "Shakib Al Hasan"
+          ),
+          RowFieldWidgetModel(
+              columnHeaderModel: columnWidgetModel.columnsList[2],
+              value: "700k"
+          ),
+          RowFieldWidgetModel(
+              columnHeaderModel: columnWidgetModel.columnsList[3],
+              value: "Rangpur"
+          ),
+          RowFieldWidgetModel(
+              columnHeaderModel: columnWidgetModel.columnsList[4],
+              value: "5000"
+          ),
+
+          RowFieldWidgetModel(
+              columnHeaderModel: columnWidgetModel.columnsList[5],
+              value: null,
+            options: [
+              CustomTableDropDownModel(label: "Male"),
+              CustomTableDropDownModel(label: "Female"),
+              CustomTableDropDownModel(label: "Others")
+            ]
+          ),
+          RowFieldWidgetModel(
+              columnHeaderModel: columnWidgetModel.columnsList[6],
+              value: const Icon(Icons.person, color: Colors.grey,)
+          ),
+        ]
+    );
+
+    RowWidgetModel row2 = RowWidgetModel(
+        rowFieldList:  [
+          RowFieldWidgetModel(
+              columnHeaderModel: columnWidgetModel.columnsList[0],
+              value: 2
+          ),
+          RowFieldWidgetModel(
+              columnHeaderModel: columnWidgetModel.columnsList[1],
+              value: "Mushfiqur Rahim"
+          ),
+          RowFieldWidgetModel(
+              columnHeaderModel: columnWidgetModel.columnsList[2],
+              value: "160k"
+          ),
+          RowFieldWidgetModel(
+              columnHeaderModel: columnWidgetModel.columnsList[3],
+              value: "Dhaka"
+          ),
+          RowFieldWidgetModel(
+              columnHeaderModel: columnWidgetModel.columnsList[4],
+              value: "400"
+          ),
+
+          RowFieldWidgetModel(
+              columnHeaderModel: columnWidgetModel.columnsList[5],
+              value: CustomTableDropDownModel(label: "Male"),
+              options: [
+                CustomTableDropDownModel(label: "Male"),
+                CustomTableDropDownModel(label: "Female"),
+                CustomTableDropDownModel(label: "Others")
+              ]
+          ),
+          RowFieldWidgetModel(
+              columnHeaderModel: columnWidgetModel.columnsList[6],
+              value: const Icon(Icons.person, color: Colors.grey,)
+          ),
+        ]
+    );
+
+    RowWidgetModel row3 = RowWidgetModel(
+        rowFieldList: [
+          RowFieldWidgetModel(
+              columnHeaderModel: columnWidgetModel.columnsList[0],
+              value: 1
+          ),
+          RowFieldWidgetModel(
+              columnHeaderModel: columnWidgetModel.columnsList[1],
+              value: "Tamim Iqbal"
+          ),
+          RowFieldWidgetModel(
+              columnHeaderModel: columnWidgetModel.columnsList[2],
+              value: "200k"
+          ),
+          RowFieldWidgetModel(
+              columnHeaderModel: columnWidgetModel.columnsList[3],
+              value: "Chottogram"
+          ),
+          RowFieldWidgetModel(
+              columnHeaderModel: columnWidgetModel.columnsList[4],
+              value: "186"
+          ),
+
+          RowFieldWidgetModel(
+              columnHeaderModel: columnWidgetModel.columnsList[5],
+              value: null,
+              options: [
+                CustomTableDropDownModel(label: "Male"),
+                CustomTableDropDownModel(label: "Female"),
+                CustomTableDropDownModel(label: "Others")
+              ]
+          ),
+          RowFieldWidgetModel(
+              columnHeaderModel: columnWidgetModel.columnsList[6],
+              value: const Icon(Icons.person, color: Colors.grey,)
+          ),
+        ]
+    );
+
+    rows = [row1, row2, row3];
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    columnWidgetModel = getColumnList();
+    setRow();
+  }
+
+
   @override
   Widget build(BuildContext context) {
 
@@ -151,9 +245,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: FlutterDataTable(
         columnModel: columnWidgetModel,
-        rowsData: [],
-
-
+        rowsData: rows
       )
        // This trailing comma makes auto-formatting nicer for build methods.
     );

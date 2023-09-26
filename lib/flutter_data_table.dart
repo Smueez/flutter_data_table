@@ -1,7 +1,6 @@
 library flutter_data_table;
 
 /// ================ export library ========================
-export 'package:flutter_data_table/utils/responsive_size.dart';
 export 'package:flutter_data_table/widget/column_header_widget_ui.dart';
 export 'package:flutter_data_table/widget/custom_check_box_widget.dart';
 export 'package:flutter_data_table/widget/row_field_widget_ui.dart';
@@ -41,6 +40,7 @@ class FlutterDataTable extends StatefulWidget {
         this.onRefresh,
         this.onRowSelectBuilder,
         this.tableDecoration,
+        this.isSortAllowed = false,
         super.key});
 
   final ColumnWidgetModel columnModel;
@@ -60,6 +60,7 @@ class FlutterDataTable extends StatefulWidget {
   final double? columnHeight;
   final Function(List<RowWidgetModel> selectedRowList)? onRowSelectBuilder;
   final bool isCheckBoxMultiSelectAllowed;
+  final bool isSortAllowed;
 
   @override
   State<FlutterDataTable> createState() => _FlutterDataTableState();
@@ -78,7 +79,10 @@ class _FlutterDataTableState extends State<FlutterDataTable> {
     if(widget.verticalController != null){
       innerVerticalController = widget.verticalController!;
     }
-    innerVerticalController.addListener(verticalScrollListener);
+    if(widget.verticalController == null){
+      innerVerticalController.addListener(verticalScrollListener);
+    }
+
   }
 
   setColumnOrderNumber(){
@@ -220,8 +224,10 @@ class _FlutterDataTableState extends State<FlutterDataTable> {
           )
       );
     }
+    if(widget.isSortAllowed){
+      widget.columnModel.isSortable = true;
+    }
     for(int i = 0; i < widget.columnModel.columnsList.length - 1; i++){
-
       ColumnHeaderModel element = widget.columnModel.columnsList[i];
       if(element.orderNumber == -1){
         continue;
@@ -229,13 +235,18 @@ class _FlutterDataTableState extends State<FlutterDataTable> {
       list.add(
           getAspectByColumnLength(
               InkWell(
-                onTap: widget.columnModel.isSortable && element.columnType == RowFieldWidgetType.textWidget
+                onTap: widget.columnModel.isSortable && (element.columnType == RowFieldWidgetType.textWidget || element.columnType == RowFieldWidgetType.currency)
                     ? () {
                   if(widget.sort == null){
                     sortedColumnHeader = onSort(element.slug, i, sortedColumnHeader == element.slug) ?? "";
                   }
                   else {
-                    widget.sort!(element);
+                    if(widget.columnModel.onSort != null){
+                      widget.columnModel.onSort!();
+                    }
+                    else {
+                      widget.sort!(element);
+                    }
                     sortedColumnHeader = element.slug;
                   }
                   setState(() {
