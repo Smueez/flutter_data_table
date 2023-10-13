@@ -15,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_data_table/utils/responsive_size.dart';
 import 'package:flutter_data_table/widget/column_header_widget_ui.dart';
 import 'package:flutter_data_table/widget/custom_check_box_widget.dart';
+import 'package:flutter_data_table/widget/custom_text_widget_ui.dart';
 import 'package:flutter_data_table/widget/row_field_widget_ui.dart';
 import 'models/column_header_model.dart';
 import 'models/column_widget_model.dart';
@@ -32,7 +33,7 @@ class FlutterDataTable extends StatefulWidget {
         this.isLoadMoreDataAllowed = true,
         this.onLoadMoreData,
         this.rowHeight,
-        this.columnHeight,
+        this.headerHeight,
         this.verticalController,
         this.noDataWidget,
         this.onSave,
@@ -41,6 +42,9 @@ class FlutterDataTable extends StatefulWidget {
         this.onRowSelectBuilder,
         this.tableDecoration,
         this.isSortAllowed = false,
+        this.isSerialNumberColumnAllowed = false,
+        this.slNoColumnName,
+        this.serialNumColumnWidth,
         super.key});
 
   final ColumnWidgetModel columnModel;
@@ -57,10 +61,13 @@ class FlutterDataTable extends StatefulWidget {
   final Function(ColumnHeaderModel<dynamic> element)? sort;
   final Widget? noDataWidget;
   final double? rowHeight;
-  final double? columnHeight;
+  final double? headerHeight;
   final Function(List<RowWidgetModel> selectedRowList)? onRowSelectBuilder;
   final bool isCheckBoxMultiSelectAllowed;
   final bool isSortAllowed;
+  final bool isSerialNumberColumnAllowed;
+  final String? slNoColumnName;
+  final double? serialNumColumnWidth;
 
   @override
   State<FlutterDataTable> createState() => _FlutterDataTableState();
@@ -86,8 +93,8 @@ class _FlutterDataTableState extends State<FlutterDataTable> {
   }
 
   setColumnOrderNumber(){
-    for(int i = 0; i < widget.columnModel.columnsList.length - 1; i++){
-      if(widget.columnModel.columnsList[i].orderNumber == null){
+    for(int i = 0; i < widget.columnModel.columnsList.length ; i++){
+      if(widget.columnModel.columnsList[i].orderNumber == -1){
         widget.columnModel.columnsList[i].orderNumber = i;
       }
     }
@@ -139,7 +146,7 @@ class _FlutterDataTableState extends State<FlutterDataTable> {
               SizedBox(
                 width: widget.columnModel.columnsList.length <= 4 && isFixedWidthGiven? Responsive.width(100, context) : null,
 
-                height: widget.columnHeight??Responsive.height(4, context),
+                height: widget.headerHeight??Responsive.height(4, context),
 
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
@@ -203,8 +210,7 @@ class _FlutterDataTableState extends State<FlutterDataTable> {
 
   List<Widget> columnHeaderList() {
     List<Widget> list = [];
-    widget.columnModel.columnsList.sort((a, b) =>a.orderNumber??0.compareTo(b.orderNumber??0));
-    // for (ColumnHeaderModel element in widget.columnModel.columnsList.getRange(0, widget.columnModel.columnsList.length - 1)) {
+    widget.columnModel.columnsList.sort((a, b) =>a.orderNumber.compareTo(b.orderNumber));
     if(widget.isCheckBoxMultiSelectAllowed){
       list.add(
           Container(
@@ -224,6 +230,29 @@ class _FlutterDataTableState extends State<FlutterDataTable> {
           )
       );
     }
+    if(widget.isSerialNumberColumnAllowed){
+      list.add(
+          Container(
+              width: Responsive.width(widget.serialNumColumnWidth??15, context),
+              height: widget.headerHeight??Responsive.height(4, context),
+              padding: EdgeInsets.symmetric(vertical: Responsive.height(1, context)),
+              decoration: BoxDecoration(
+                  color: widget.columnModel.backgroundColor?? Colors.green,
+                  border: widget.columnModel.headerBorder? Border(
+                      right: BorderSide(color: widget.columnModel.headerBorderColor?? Colors.white)
+                  ):null),
+              child: Center(
+                child: Text(
+                  widget.slNoColumnName??"SL No",
+                  style: widget.columnModel.style??const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold
+                  ),
+                ),
+              )
+          )
+      );
+    }
     if(widget.isSortAllowed){
       widget.columnModel.isSortable = true;
     }
@@ -232,10 +261,13 @@ class _FlutterDataTableState extends State<FlutterDataTable> {
       if(element.orderNumber == -1){
         continue;
       }
+      if(element.columnType == RowFieldWidgetType.editText){
+        widget.columnModel.isSortable = false;
+      }
       list.add(
           getAspectByColumnLength(
               InkWell(
-                onTap: widget.columnModel.isSortable && (element.columnType == RowFieldWidgetType.textWidget || element.columnType == RowFieldWidgetType.currency)
+                onTap: widget.columnModel.isSortable && (element.columnType == RowFieldWidgetType.textWidget || element.columnType == RowFieldWidgetType.clickable || element.columnType == RowFieldWidgetType.currency)
                     ? () {
                   if(widget.sort == null){
                     sortedColumnHeader = onSort(element.slug, i, sortedColumnHeader == element.slug) ?? "";
@@ -256,7 +288,7 @@ class _FlutterDataTableState extends State<FlutterDataTable> {
                     : null,
                 child: ColumnHeaderWidgetUI(
                   columnHeaderData: element,
-                  isSortable: widget.columnModel.isSortable && (element.columnType == RowFieldWidgetType.textWidget || element.columnType == RowFieldWidgetType.currency),
+                  isSortable: widget.columnModel.isSortable && (element.columnType == RowFieldWidgetType.textWidget|| element.columnType == RowFieldWidgetType.clickable || element.columnType == RowFieldWidgetType.currency),
                   sortedColumn: sortedColumnHeader,
                   backgroundColor: widget.columnModel.backgroundColor,
                   style: widget.columnModel.style,
@@ -269,7 +301,10 @@ class _FlutterDataTableState extends State<FlutterDataTable> {
     list.add(
         getAspectByColumnLength(
             InkWell(
-              onTap: widget.columnModel.isSortable && widget.columnModel.columnsList.last.columnType == RowFieldWidgetType.textWidget
+              onTap: widget.columnModel.isSortable && (
+                  widget.columnModel.columnsList.last.columnType == RowFieldWidgetType.textWidget
+                      || widget.columnModel.columnsList.last.columnType == RowFieldWidgetType.clickable
+                      || widget.columnModel.columnsList.last.columnType == RowFieldWidgetType.currency)
                   ? () {
                 if(widget.sort == null){
                   sortedColumnHeader = onSort(widget.columnModel.columnsList.last.slug, widget.columnModel.columnsList.length - 1, sortedColumnHeader == widget.columnModel.columnsList.last.slug) ?? "";
@@ -285,7 +320,10 @@ class _FlutterDataTableState extends State<FlutterDataTable> {
                   : null,
               child: ColumnHeaderWidgetUI(
                 columnHeaderData: widget.columnModel.columnsList.last,
-                isSortable: widget.columnModel.isSortable && (widget.columnModel.columnsList.last.columnType == RowFieldWidgetType.textWidget || widget.columnModel.columnsList.last.columnType == RowFieldWidgetType.currency),
+                isSortable: widget.columnModel.isSortable && (
+                    widget.columnModel.columnsList.last.columnType == RowFieldWidgetType.textWidget
+                        || widget.columnModel.columnsList.last.columnType == RowFieldWidgetType.clickable
+                        || widget.columnModel.columnsList.last.columnType == RowFieldWidgetType.currency),
                 sortedColumn: sortedColumnHeader,
                 backgroundColor: widget.columnModel.backgroundColor,
                 style: widget.columnModel.style,
@@ -329,12 +367,16 @@ class _FlutterDataTableState extends State<FlutterDataTable> {
     }
   }
 
+  setRowFieldOrder(){
+
+  }
 
   List<Widget> rowList() {
     List<Widget> rows = [];
+    int rowNumber = 1;
     for (RowWidgetModel rowWidgetModel in widget.rowsData) {
       List<Widget> rowChildren = [];
-      rowWidgetModel.rowFieldList.sort((a, b) => a.order!.compareTo(b.order!));
+      rowWidgetModel.rowFieldList.sort((a, b) => a.columnHeaderModel.orderNumber.compareTo(b.columnHeaderModel.orderNumber));
       if(widget.isCheckBoxMultiSelectAllowed){
         rowChildren.add(
             SizedBox(
@@ -350,8 +392,20 @@ class _FlutterDataTableState extends State<FlutterDataTable> {
             )
         );
       }
+      if(widget.isSerialNumberColumnAllowed){
+        rowChildren.add(
+            SizedBox(
+              height: widget.rowHeight??Responsive.height(3, context),
+              width: Responsive.width(15, context),
+              child: CustomTextWidgetUI(
+                showLabel: '${rowNumber++}',
+                textStyle: null,
+              ),
+            )
+        );
+      }
       for (RowFieldWidgetModel rowFieldWidgetModel in rowWidgetModel.rowFieldList) {
-        if(rowFieldWidgetModel.order == -1){
+        if(rowFieldWidgetModel.columnHeaderModel.orderNumber == -1){
           continue;
         }
 

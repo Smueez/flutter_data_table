@@ -8,7 +8,7 @@ class ColumnHeaderModel<T>{
   final int? id;
   final String slug;
   final String label;
-  int? orderNumber;
+  int orderNumber;
   final RowFieldWidgetType columnType;
   final double? fixedWidth;
   final TextAlign? textAlign;
@@ -18,7 +18,7 @@ class ColumnHeaderModel<T>{
     this.id,
     required this.slug,
     required this.label,
-    this.orderNumber,
+    this.orderNumber = -1,
     this.textAlign,
     this.fixedWidth,
     this.columnType = RowFieldWidgetType.textWidget,

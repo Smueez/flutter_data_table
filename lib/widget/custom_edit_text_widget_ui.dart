@@ -30,6 +30,9 @@ class _CustomEditTextWidgetUIState extends State<CustomEditTextWidgetUI> {
       },
       onChanged: (value) {
         widget.rowFieldWidgetModel.value = value;
+        if(widget.rowFieldWidgetModel.onEditTextValueChange != null){
+          widget.rowFieldWidgetModel.onEditTextValueChange!(value, widget.rowFieldWidgetModel);
+        }
         print(widget.rowFieldWidgetModel.value);
       },
     );

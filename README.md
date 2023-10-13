@@ -50,34 +50,34 @@ This is the constructor of the class.
         this.onRefresh,
         this.onRowSelectBuilder,
         this.tableDecoration,
-        this.isSortAllowed = false
+        this.isSortAllowed = false,
+        this.isSerialNumberColumnAllowed = false,
+        this.slNoColumnName,
       });
 ```
 ### Where:
 
--  **columnModel** is required and it is a **ColumnWidgetModel** type. This is the column model class.
--  **rowsData** is also required and it is a list of **RowWidgetModel** type. This is the list of the rows of the table.
--  **colors** is a **RowColor** type. To separate 2 adjacent row by 2 different color.
--  **isCheckBoxMultiSelectAllowed** is a **boolean** value indicates if multiselect rows allowed with checkbox.
--  **sort** is a **Function**. This gives a global sort mechanism for the data table. This is not mandatory as the table has it's own dynamic sort mechanism.
--  **padding** is a **EdgeInsetsGeometry** type which gives a padding for the data table.
--  **isLoadMoreDataAllowed** is a **double** value. By making this True, data table will get an infinite scroll.
--  **onLoadMoreData** is a **Function**. This function will be called when the data table reach the end of the scroll and if **isLoadMoreDataAllowed** is True.
--  **rowHeight** is a **double** value. Which gives all the row a fixed height.
--  **isDraggable** accepts a **boolean** value which determines if the widget is draggable or not.
--  **autoAlign** accepts a **boolean** value which determines if the widget will be auto aligns on the left or right after it is being dragged.
--  **deleteWidget** accepts a **widget** which is used to delete the floating widget.
--  **onDeleteWidget** accepts a **function** which is used to delete the floating widget.
--  **deleteWidgetAlignment** accepts an **alignment** value which is used to align the delete widget.
--  **deleteWidgetAnimationCurve** accepts an **animation curve** value which is used to animate the delete widget.
--  **deleteWidgetAnimationDuration** accepts an **animation duration** value which is used to animate the delete widget
--  **hasDeleteWidgetAnimationDuration** accepts an **animation duration** value which is used to animate the delete widget when it is dragging with the delete widget.
--  **deleteWidgetHeight** accepts a **double** value which is used to set the height of the delete widget.
--  **deleteWidgetWidth** accepts a **double** value which is used to set the width of the delete widget.
--  **isCollidingDeleteWidgetHeight** accepts a **double** value which is used to set the height of the delete widget.
--  **isCollidingDeleteWidgetWidth** accepts a **double** value which is used to set the width of the delete widget.
--  **boxDecoration** optionally accepts a box **decoration** value which is used to set the decoration of the delete widget.
--  **deleteWidgetPadding** optionally accepts a **padding** value which is used to set the padding of the delete widget.
+- **columnModel** is required and it is a **ColumnWidgetModel** type. This is the column model class.
+- **rowsData** is also required and it is a list of **RowWidgetModel** type. This is the list of the rows of the table.
+- **colors** is a **RowColor** type. To separate 2 adjacent row by 2 different color.
+- **isCheckBoxMultiSelectAllowed** is a **boolean** value indicates if multiselect rows allowed with checkbox.
+- **sort** is a **Function**. This gives a global sort mechanism for the data table. This is not mandatory as the table has it's own dynamic sort mechanism.
+- **padding** is a **EdgeInsetsGeometry** type which gives a padding for the data table.
+- **isLoadMoreDataAllowed** is a **double** value. By making this True, data table will get an infinite scroll.
+- **onLoadMoreData** is a **Function**. This function will be called when the data table reach the end of the scroll and if **isLoadMoreDataAllowed** is True.
+- **rowHeight** is a **double** value. Which gives all the row a fixed height.
+- **columnHeight** is a **double** value which gives the headers a fixed height.
+- **verticalController** accepts a **ScrollController**. Which is basically the controller of the vertical scroll widget.
+- **onSave** is a **Function**. This function has a parameter **List of RowWidgetModel<dynamic>**. This function is been called when this whole Widget is disposed. 
+It only gives the List of rows where values are changed by user. The changes can be done by EditText or Dropdown value.
+- **isRefreshAllowed** accepts a **boolean**. This flag indicate if pull to refresh is allowed. If this is true then we must provide **onRefresh** function.
+- **onRefresh** is a **Function**. This is a async function. This function is called on pull to refresh.
+- **tableDecoration** accepts an **BoxDecoration**. With this you can decorate the Container of the table.
+- **isSortAllowed** is a **boolean**. This indicates if you want to have sorting mechanism in your table. Sort is done by the table it self. Sort function is very dynamic here.
+- **isSerialNumberColumnAllowed** is a **boolean** value. Which indicates if you want to have serial number in the table.
+- **slNoColumnName** is a **String** value. This is basically the column name of serial number column. By default it is "Sl No".
+- **serialNumColumnWidth** accepts a **double** value. This will allow you to provide the width of Serial number column width.
+
 #### Usage　
 
 ```Dart

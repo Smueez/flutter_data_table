@@ -62,8 +62,8 @@ class _CustomDropDownWidgetUIState extends State<CustomDropDownWidgetUI> {
       value: widget.rowFieldWidgetModel.value,
       onChanged: (newValue) {
         if(newValue != null){
-          if(widget.rowFieldWidgetModel.onChange != null){
-            widget.rowFieldWidgetModel.onChange!(newValue, widget.rowFieldWidgetModel);
+          if(widget.rowFieldWidgetModel.onDropDownValueChange != null){
+            widget.rowFieldWidgetModel.onDropDownValueChange!(newValue, widget.rowFieldWidgetModel);
           }
           widget.rowFieldWidgetModel.value = newValue;
           setState(() {

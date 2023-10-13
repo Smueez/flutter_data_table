@@ -18,11 +18,12 @@ class RowFieldWidgetModel<T> {
   RowFieldWidgetType? type;
   dynamic value;
   List<CustomTableDropDownModel> options;
-  int? order;
-  String? columnName;
+  // int? order;
+  String? columnName = "";
   Function()? onClick;
   T? other;
-  Function(CustomTableDropDownModel<T>, RowFieldWidgetModel<T>)? onChange;
+  Function(CustomTableDropDownModel<T>, RowFieldWidgetModel<T>)? onDropDownValueChange;
+  Function(String value, RowFieldWidgetModel<T>)? onEditTextValueChange;
   TextStyle? style;
   InputType? inputType;
   double? fixedWidth;
@@ -31,8 +32,8 @@ class RowFieldWidgetModel<T> {
 
   RowFieldWidgetModel({
     this.type,
-    this.order,
-    this.columnName,
+    // this.order,
+    // this.columnName,
     required this.columnHeaderModel,
     required this.value,
     this.options = const [],
@@ -41,18 +42,19 @@ class RowFieldWidgetModel<T> {
     this.style,
     this.fixedWidth,
     this.other,
-    this.onChange,
+    this.onDropDownValueChange,
+    this.onEditTextValueChange,
     this.inputType = InputType.string
   }){
     type ??= columnHeaderModel.columnType;
-    order ??= columnHeaderModel.orderNumber;
+    // order ??= columnHeaderModel.orderNumber;
     columnName ??= columnHeaderModel.slug;
     fixedWidth ??= columnHeaderModel.fixedWidth;
     textAlign ??= columnHeaderModel.textAlign;
   }
 
   factory RowFieldWidgetModel.empty(){
-    return RowFieldWidgetModel(type: RowFieldWidgetType.empty, order: -1, columnName: "", value: "", columnHeaderModel: ColumnHeaderModel.empty());
+    return RowFieldWidgetModel(type: RowFieldWidgetType.empty,  value: "", columnHeaderModel: ColumnHeaderModel.empty()); //  order: -1,
   }
 }
 
