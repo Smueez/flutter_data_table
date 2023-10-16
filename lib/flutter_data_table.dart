@@ -284,16 +284,7 @@ class _FlutterDataTableState extends State<FlutterDataTable> {
                     sortedColumnHeader = onSort(element.slug, i, sortedColumnHeader == element.slug) ?? "";
                   }
                   else {
-                    // if(widget.columnModel.onSort != null){
-                    //   widget.columnModel.onSort!();
-                    // }
-                    // else {
-                    //   widget.sort!(element);
-                    // }
-                    if(widget.sort != null){
-                      widget.sort!(element);
-                    }
-
+                    widget.sort!(element);
                     sortedColumnHeader = element.slug;
                   }
                   setState(() {
