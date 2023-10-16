@@ -4,22 +4,11 @@ import 'package:flutter/material.dart';
 import 'column_header_model.dart';
 import 'custom_table_dropdown_model.dart';
 
-/*
-options =[
- { "id": 1,
-  "label": "item name",
-  ...
-  you can add more if you want but this 2 is mandatory
-  }
-  ]
- */
-
 class RowFieldWidgetModel<T> {
   RowFieldWidgetType? type;
   dynamic value;
   List<CustomTableDropDownModel> options;
-  // int? order;
-  String? columnName = "";
+  String? columnName;
   Function()? onClick;
   T? other;
   Function(CustomTableDropDownModel<T>, RowFieldWidgetModel<T>)? onDropDownValueChange;
@@ -32,8 +21,6 @@ class RowFieldWidgetModel<T> {
 
   RowFieldWidgetModel({
     this.type,
-    // this.order,
-    // this.columnName,
     required this.columnHeaderModel,
     required this.value,
     this.options = const [],

@@ -45,51 +45,48 @@ class _MyHomePageState extends State<MyHomePage> {
           id: 1,
           slug: "name",
           label: "Name",
-          // orderNumber: 1,
+          orderNumber: 1,
           columnType: RowFieldWidgetType.textWidget,
-          // fixedWidth: 100
       ),
       ColumnHeaderModel(
           id: 1,
           slug: "income",
           label: "Income",
-          // orderNumber: 2,
+          orderNumber: 2,
           columnType: RowFieldWidgetType.currency,
       ),
       ColumnHeaderModel(
           id: 1,
           slug: "location",
           label: "Location",
-          // orderNumber: 3,
+          orderNumber: 3,
           columnType: RowFieldWidgetType.clickable,
-          // fixedWidth: 100
       ),
       ColumnHeaderModel(
           id: 1,
           slug: "quantity",
           label: "QUANTITY",
-          // orderNumber: 4,
+          orderNumber: 4,
           columnType: RowFieldWidgetType.textWidget,
       ),
       ColumnHeaderModel(
           id: 1,
           slug: "gender",
           label: "Gender",
-          // orderNumber: 5,
+          orderNumber: 5,
           columnType: RowFieldWidgetType.dropdown
       ),
       ColumnHeaderModel(
           id: 1,
           slug: "image",
           label: "Image",
-          // orderNumber: 6,
+          orderNumber: 6,
           columnType: RowFieldWidgetType.customWidget,
           textAlign: TextAlign.center
       )
     ];
     return ColumnWidgetModel(
         columnsList: columnList,
-        isSortable: true,
         checkBoxWidgetModel: CheckBoxWidgetModel(
           side: const BorderSide(color: Colors.white),
           activeColor: Colors.transparent,
@@ -230,7 +227,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -240,6 +236,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: FlutterDataTable(
         columnModel: columnWidgetModel,
         rowsData: rows,
+        isSortAllowed: true,
         isSerialNumberColumnAllowed: true,
         isCheckBoxMultiSelectAllowed: true,
         colors: RowColor(color1: Colors.white, color2: Colors.grey[100]!),

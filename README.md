@@ -8,19 +8,28 @@
 
 
 ## Demo
-**Without auto sort functionality on**
-Initially "sort" is false.
-```
-    isSortAllowed = false
-```
-![](https://raw.githubusercontent.com/Smueez/assets/main/floating_widget.gif)
-
-**Sort functionality activated**
+If if you run the codes in **Example** it will look this:
+![](https://raw.githubusercontent.com/Smueez/assets/main/flutter_custom_table.gif)
+**With the auto sort functionality set to true**
 Add this to your code.
 ```
-    isSortAllowed = false
+    isSortAllowed = true
 ```
-![](https://raw.githubusercontent.com/Smueez/assets/main/autoAlign.gif)
+![](https://raw.githubusercontent.com/Smueez/assets/main/sort.gif)
+
+**With serial number added to the each row**
+Add this to your code.
+```
+    isSerialNumberColumnAllowed = true
+```
+![](https://raw.githubusercontent.com/Smueez/assets/main/serial_no.gif)
+
+**With multi select with checkbox enabled**
+Add this to your code.
+```
+    isCheckBoxMultiSelectAllowed = true
+```
+![](https://raw.githubusercontent.com/Smueez/assets/main/check_box.gif)
 
 ### Getting started
 

@@ -25,6 +25,7 @@ class _RowFieldWidgetState extends State<RowFieldWidget> {
       case RowFieldWidgetType.currency:
         return CustomTextWidgetUI(
             showLabel: widget.rowFieldWidgetModel.value == null? "\$ 0": "\$ ${widget.rowFieldWidgetModel.value.toString()}",
+            textAlign: widget.rowFieldWidgetModel.textAlign,
             textStyle: widget.rowFieldWidgetModel.style);
       case RowFieldWidgetType.editText:
         return CustomEditTextWidgetUI(rowFieldWidgetModel: widget.rowFieldWidgetModel);

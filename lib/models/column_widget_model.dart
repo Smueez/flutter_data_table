@@ -6,7 +6,7 @@ import 'column_header_model.dart';
 
 class ColumnWidgetModel {
   List<ColumnHeaderModel> columnsList;
-  bool isSortable;
+  bool isSortable = false;
   String Function([dynamic params])? onSort;
   Color? backgroundColor = Colors.green;
   bool headerBorder;
@@ -17,7 +17,6 @@ class ColumnWidgetModel {
   ColumnWidgetModel({
     required this.columnsList,
     this.checkBoxWidgetModel,
-    this.isSortable = false,
     this.onSort,
     this.headerBorder = true,
     this.headerBorderColor,

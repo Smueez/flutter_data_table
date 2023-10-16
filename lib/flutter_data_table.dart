@@ -208,6 +208,21 @@ class _FlutterDataTableState extends State<FlutterDataTable> {
     });
   }
 
+  checkIfSortableAllowed(){
+    if(widget.isSortAllowed){
+      for(int i = 0; i < widget.columnModel.columnsList.length; i++){
+        ColumnHeaderModel element = widget.columnModel.columnsList[i];
+        if(element.orderNumber == -1){
+          continue;
+        }
+        if(element.columnType == RowFieldWidgetType.editText){
+          return false;
+        }
+      }
+      return true;
+    }
+    return false;
+  }
   List<Widget> columnHeaderList() {
     List<Widget> list = [];
     widget.columnModel.columnsList.sort((a, b) =>a.orderNumber.compareTo(b.orderNumber));
@@ -253,17 +268,13 @@ class _FlutterDataTableState extends State<FlutterDataTable> {
           )
       );
     }
-    if(widget.isSortAllowed){
-      widget.columnModel.isSortable = true;
-    }
+    widget.columnModel.isSortable = checkIfSortableAllowed();
     for(int i = 0; i < widget.columnModel.columnsList.length - 1; i++){
       ColumnHeaderModel element = widget.columnModel.columnsList[i];
       if(element.orderNumber == -1){
         continue;
       }
-      if(element.columnType == RowFieldWidgetType.editText){
-        widget.columnModel.isSortable = false;
-      }
+
       list.add(
           getAspectByColumnLength(
               InkWell(
@@ -333,6 +344,7 @@ class _FlutterDataTableState extends State<FlutterDataTable> {
             fixedWidth: widget.columnModel.columnsList.last.fixedWidth
         )
     );
+
     return list;
   }
 
@@ -365,10 +377,6 @@ class _FlutterDataTableState extends State<FlutterDataTable> {
     if(widget.onRowSelectBuilder != null){
       widget.onRowSelectBuilder!(selectedRowList);
     }
-  }
-
-  setRowFieldOrder(){
-
   }
 
   List<Widget> rowList() {
@@ -499,7 +507,6 @@ class _FlutterDataTableState extends State<FlutterDataTable> {
     for(RowWidgetModel row in widget.rowsData){
       for(RowFieldWidgetModel field in row.rowFieldList){
         if(field.type == RowFieldWidgetType.editText){
-          print(field.value);
           if(field.value != null){
             if(field.value.toString().isNotEmpty){
               list.add(row);
