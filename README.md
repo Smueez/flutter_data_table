@@ -8,8 +8,10 @@
 
 
 ## Demo
-If if you run the codes in **Example** it will look this:
+If you run the codes in **Example** it will look this:
+
 ![](https://raw.githubusercontent.com/Smueez/assets/main/flutter_custom_table.gif)
+
 **With the auto sort functionality set to true**
 Add this to your code.
 ```
