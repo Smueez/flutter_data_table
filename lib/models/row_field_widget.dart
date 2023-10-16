@@ -7,9 +7,9 @@ import 'custom_table_dropdown_model.dart';
 class RowFieldWidgetModel<T> {
   RowFieldWidgetType? type;
   dynamic value;
-  List<CustomTableDropDownModel> options;
+  List<CustomTableDropDownModel> dropDownOptionsList;
   String? columnName;
-  Function()? onClick;
+  Function()? onRowFieldClick;
   T? other;
   Function(CustomTableDropDownModel<T>, RowFieldWidgetModel<T>)? onDropDownValueChange;
   Function(String value, RowFieldWidgetModel<T>)? onEditTextValueChange;
@@ -23,18 +23,16 @@ class RowFieldWidgetModel<T> {
     this.type,
     required this.columnHeaderModel,
     required this.value,
-    this.options = const [],
-    this.onClick,
+    this.dropDownOptionsList = const [],
+    this.onRowFieldClick,
     this.textAlign,
     this.style,
-    this.fixedWidth,
     this.other,
     this.onDropDownValueChange,
     this.onEditTextValueChange,
     this.inputType = InputType.string
   }){
     type ??= columnHeaderModel.columnType;
-    // order ??= columnHeaderModel.orderNumber;
     columnName ??= columnHeaderModel.slug;
     fixedWidth ??= columnHeaderModel.fixedWidth;
     textAlign ??= columnHeaderModel.textAlign;

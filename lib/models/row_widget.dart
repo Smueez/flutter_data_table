@@ -8,7 +8,7 @@ class RowWidgetModel<T> {
   T? others;
   bool rowClickable;
   bool isSelected;
-  CheckBoxWidgetModel? checkBoxWidgetModel;
+  CheckBoxWidgetStyle? checkBoxWidgetModel;
   Function()? onRowClick;
 
   RowWidgetModel({

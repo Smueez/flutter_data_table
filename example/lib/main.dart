@@ -67,7 +67,7 @@ class _MyHomePageState extends State<MyHomePage> {
           slug: "quantity",
           label: "QUANTITY",
           orderNumber: 4,
-          columnType: RowFieldWidgetType.textWidget,
+          columnType: RowFieldWidgetType.editText,
       ),
       ColumnHeaderModel(
           id: 1,
@@ -87,7 +87,7 @@ class _MyHomePageState extends State<MyHomePage> {
     ];
     return ColumnWidgetModel(
         columnsList: columnList,
-        checkBoxWidgetModel: CheckBoxWidgetModel(
+        checkBoxWidgetStyle: CheckBoxWidgetStyle(
           side: const BorderSide(color: Colors.white),
           activeColor: Colors.transparent,
           checkColor: Colors.white,
@@ -122,7 +122,7 @@ class _MyHomePageState extends State<MyHomePage> {
           RowFieldWidgetModel(
               columnHeaderModel: columnWidgetModel.columnsList[4],
               value: null,
-            options: [
+            dropDownOptionsList: [
               CustomTableDropDownModel(label: "Male"),
               CustomTableDropDownModel(label: "Female"),
               CustomTableDropDownModel(label: "Others")
@@ -161,7 +161,7 @@ class _MyHomePageState extends State<MyHomePage> {
           RowFieldWidgetModel(
               columnHeaderModel: columnWidgetModel.columnsList[4],
               value: CustomTableDropDownModel(label: "Male"),
-              options: [
+              dropDownOptionsList: [
                 CustomTableDropDownModel(label: "Male"),
                 CustomTableDropDownModel(label: "Female"),
                 CustomTableDropDownModel(label: "Others")
@@ -200,7 +200,7 @@ class _MyHomePageState extends State<MyHomePage> {
           RowFieldWidgetModel(
               columnHeaderModel: columnWidgetModel.columnsList[4],
               value: null,
-              options: [
+              dropDownOptionsList: [
                 CustomTableDropDownModel(label: "Male"),
                 CustomTableDropDownModel(label: "Female"),
                 CustomTableDropDownModel(label: "Others")
@@ -236,9 +236,9 @@ class _MyHomePageState extends State<MyHomePage> {
       body: FlutterDataTable(
         columnModel: columnWidgetModel,
         rowsData: rows,
-        isSortAllowed: true,
-        isSerialNumberColumnAllowed: true,
-        isCheckBoxMultiSelectAllowed: true,
+        // isSortAllowed: true,
+        // isSerialNumberColumnAllowed: true,
+        // isCheckBoxMultiSelectAllowed: true,
         colors: RowColor(color1: Colors.white, color2: Colors.grey[100]!),
         onSave: (list){
           // called when disposed

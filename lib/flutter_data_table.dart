@@ -238,9 +238,9 @@ class _FlutterDataTableState extends State<FlutterDataTable> {
             child: CustomCheckBoxWidgetUI(
               value: widget.rowsData.length == selectedRowList.length,
               onChange: selectAll,
-              activeColor: widget.columnModel.checkBoxWidgetModel?.activeColor,
-              checkColor: widget.columnModel.checkBoxWidgetModel?.checkColor,
-              side: widget.columnModel.checkBoxWidgetModel?.side,
+              activeColor: widget.columnModel.checkBoxWidgetStyle?.activeColor,
+              checkColor: widget.columnModel.checkBoxWidgetStyle?.checkColor,
+              side: widget.columnModel.checkBoxWidgetStyle?.side,
             ),
           )
       );
@@ -284,12 +284,16 @@ class _FlutterDataTableState extends State<FlutterDataTable> {
                     sortedColumnHeader = onSort(element.slug, i, sortedColumnHeader == element.slug) ?? "";
                   }
                   else {
-                    if(widget.columnModel.onSort != null){
-                      widget.columnModel.onSort!();
-                    }
-                    else {
+                    // if(widget.columnModel.onSort != null){
+                    //   widget.columnModel.onSort!();
+                    // }
+                    // else {
+                    //   widget.sort!(element);
+                    // }
+                    if(widget.sort != null){
                       widget.sort!(element);
                     }
+
                     sortedColumnHeader = element.slug;
                   }
                   setState(() {

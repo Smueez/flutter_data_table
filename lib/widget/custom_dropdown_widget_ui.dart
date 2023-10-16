@@ -22,7 +22,7 @@ class _CustomDropDownWidgetUIState extends State<CustomDropDownWidgetUI> {
   initValue(){
     if(widget.rowFieldWidgetModel.value != null){
       if(widget.rowFieldWidgetModel.value is CustomTableDropDownModel){
-        for(CustomTableDropDownModel element in widget.rowFieldWidgetModel.options){
+        for(CustomTableDropDownModel element in widget.rowFieldWidgetModel.dropDownOptionsList){
           if(element.label == widget.rowFieldWidgetModel.value.label){
             widget.rowFieldWidgetModel.value = element;
           }
@@ -73,7 +73,7 @@ class _CustomDropDownWidgetUIState extends State<CustomDropDownWidgetUI> {
 
 
       },
-      items: widget.rowFieldWidgetModel.options.map((element) {
+      items: widget.rowFieldWidgetModel.dropDownOptionsList.map((element) {
         return DropdownMenuItem<CustomTableDropDownModel>(
           value: element,
           child: Text(

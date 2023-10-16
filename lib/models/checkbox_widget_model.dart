@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 
-class CheckBoxWidgetModel {
+class CheckBoxWidgetStyle {
   BorderSide? side;
   Color? activeColor;
   Color? checkColor;
-  CheckBoxWidgetModel({
+  CheckBoxWidgetStyle({
     this.side,
     this.activeColor,
     this.checkColor,

@@ -14,7 +14,7 @@ class _CustomClickableWidgetUIState extends State<CustomClickableWidgetUI> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: widget.rowFieldWidgetModel.onClick,
+      onTap: widget.rowFieldWidgetModel.onRowFieldClick,
       child: Center(
         child: Text(
           widget.rowFieldWidgetModel.value.toString(),
