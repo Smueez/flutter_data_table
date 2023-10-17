@@ -1,11 +1,15 @@
 ## Features
 
-- Support Android, IOS.
-- This package is used to create a complete customizable and dynamic data table;
+- Support **Android**, **IOS**.
+- This package is used to create a complete **customizable and dynamic data table**;
 - Works fine on any Widget;
 - Does not affect the functionality or performance of the application;
-- This table has a dynamic sort function which add a sort functionality to the data table and it can sort any type of data in the table and re-arrange the table according to it;
-
+- This table has a **dynamic sort** function which add a sort functionality to the data table and it can sort any type of data in the table and re-arrange the table according to it;
+- **Auto Generated serial number** for each row
+- Table has **Multi-Select** feature
+- Table has infinity scroll mode with **Load more** mode
+- Table has pull to refresh feature
+- Table has in-built functionality for **Read only text field**, **Edit text field**, **Clickable text field**, **Dropdown field** and also **Any custom Widget field**.
 
 ## Demo
 **Example**:
@@ -67,17 +71,18 @@ This is the constructor of the class.
         this.isSortAllowed = false,
         this.isSerialNumberColumnAllowed = false,
         this.slNoColumnName,
+        this.selectedRowColor,
       });
 ```
 #### Where:
 
 - **columnModel** is required and it is a **ColumnWidgetModel** type. This is the column model class.
-- **rowsData** is also required and it is a list of **RowWidgetModel** type. This is the list of the rows of the table.
+- **rowsData** is also required and it is a **List of RowWidgetModel** type. This is the list of the rows of the table.
 - **colors** is a **RowColor** type. To separate 2 adjacent row by 2 different color.
 - **isCheckBoxMultiSelectAllowed** is a **boolean** value indicates if multiselect rows allowed with checkbox.
 - **sort** is a **Function**. This gives a global sort mechanism for the data table. This is not mandatory as the table has it's own dynamic sort mechanism.
 - **padding** is a **EdgeInsetsGeometry** type which gives a padding for the data table.
-- **isLoadMoreDataAllowed** is a **double** value. By making this True, data table will get an infinite scroll.
+- **isLoadMoreDataAllowed** is a **boolean** value. By making this True, data table will get an infinite scroll.
 - **onLoadMoreData** is a **Function**. This function will be called when the data table reach the end of the scroll and if **isLoadMoreDataAllowed** is True.
 - **rowHeight** is a **double** value. Which gives all the row a fixed height.
 - **columnHeight** is a **double** value which gives the headers a fixed height.
@@ -91,6 +96,9 @@ It only gives the List of rows where values are changed by user. The changes can
 - **isSerialNumberColumnAllowed** is a **boolean** value. Which indicates if you want to have serial number in the table.
 - **slNoColumnName** is a **String** value. This is basically the column name of serial number column. By default it is "Sl No".
 - **serialNumColumnWidth** accepts a **double** value. This will allow you to provide the width of Serial number column width.
+- **selectedRowColor** accepts a **Color** type value. If the multi-select enabled, this color will be used as a highlighter color for the selected row.
+- **noDataWidget** accepts a **Widget** type value. This widget is called when there is no data in the table.
+- **onRowSelectBuilder** is a **Builder function**. If multi-select mode is enabled, then after selecting each row this function is called. You can get selected rows by this builder function.
 
 #### RowFieldWidgetType<T>
 This is a **enum**.
@@ -133,7 +141,7 @@ This is the constructor of the class. Here **T** is the Generic Type. Each Colum
 - **otherData** is a **Generic type**. You can put any other data to any particular column object. This data type is initialized when the object is declared. You can use any kind of data type for this field.
 
 #### ColumnWidgetModel
-This is the constructor of the class. Here **T** is the Generic Type. Each RowFieldWidgetModel is the the **cell** of each row.
+This is the constructor of the ColumnWidgetModel. This class initializes the column headers along with all info of columns.
 ```
      ColumnWidgetModel({
       required this.columnsList,
@@ -163,7 +171,6 @@ This is the constructor of the class. Here **T** is the Generic Type. Each RowFi
         this.onRowFieldClick,
         this.textAlign,
         this.style,
-        this.fixedWidth,
         this.other,
         this.onDropDownValueChange,
         this.onEditTextValueChange,
@@ -189,6 +196,29 @@ This also initialized by the **ColumnHeaderModel**. But you can change it if you
 - **verticalController** accepts a **ScrollController**. Which is basically the controller of the vertical scroll widget.
 - **inputType** is a **InputType** type. This is used when the particular field or cell is **EditText** type. This indicates if the input type of the edit text field.
 
+
+#### RowWidgetModel<T>
+This is the constructor of the class. Here **T** is the Generic Type. Each RowWidgetModel is the the each **Row** of the table. This class is the single row model class of the table.
+```
+     RowWidgetModel({
+        required this.rowFieldList,
+        this.others,
+        this.checkBoxWidgetStyle,
+        this.rowClickable = false,
+        this.onRowClick
+     });
+```
+#### Where:
+
+- **rowFieldList** is a **List of RowFieldWidgetModel**. This is a required field. This field indicates the list of row cell for a single row.
+- **other** is a **Generic Type**. if anyone wants to put some other information about this row to use it later, he/she may put any type of data here. All you need is just to put the Generic Data type when initializing the widget.
+- **checkBoxWidgetStyle** is a **CheckBoxWidgetStyle** type. If the multiselect mode is enabled then this field is for the style of the checkbox.
+- **rowClickable** is a **boolean** type field. If you want to make your row clickable, then make this field "true". This field is "false" by default.
+- **onRowClick** is a **Function**. this function is called when the particular row is tapped.
+
+
+## See **Example** to use the **sample code** to run a sample table
+
 ## Read this before implementation
 - Try to use **orderNumber** in **ColumnHeaderModel** for each column. It will still work if ou don't. The table will take it's orderNumber from the index of the given column header list.
 - Try not to use the in-built sort function. This function is well written for any type of value given in **value** field in **RowFieldWidgetModel** only if the the field is **text widget**, **currency widget** or **clickable widget**. 
@@ -197,7 +227,7 @@ This also initialized by the **ColumnHeaderModel**. But you can change it if you
 - If you use this table under any scroll view then provide a fixed height to the table.
 
 ## Known Limitations
-- Sor doesn't work when there is any edit text field in the table.
+- Sort doesn't work when there is any edit text field in the table.
 - Does not work when the table is under any scroll view without fixed height.
 - It does not automatically calculate the height of the parent widget.
 - Have to write extra codes to get the rows and column data.
