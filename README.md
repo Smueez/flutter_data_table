@@ -17,6 +17,7 @@
 ![](https://raw.githubusercontent.com/Smueez/assets/main/flutter_custom_table.gif)
 
 **With the auto sort functionality set to true**
+
 Add this to your code.
 ```
     isSortAllowed = true
@@ -24,6 +25,7 @@ Add this to your code.
 ![](https://raw.githubusercontent.com/Smueez/assets/main/sort.gif)
 
 **With serial number added to the each row**
+
 Add this to your code.
 ```
     isSerialNumberColumnAllowed = true
@@ -31,6 +33,7 @@ Add this to your code.
 ![](https://raw.githubusercontent.com/Smueez/assets/main/serial_no.gif)
 
 **With multi select with checkbox enabled**
+
 Add this to your code.
 ```
     isCheckBoxMultiSelectAllowed = true
