@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_data_table/utils/responsive_size.dart';
 
 import '../models/row_field_widget.dart';
 
@@ -12,11 +15,30 @@ class CustomEditTextWidgetUI extends StatefulWidget {
 }
 
 class _CustomEditTextWidgetUIState extends State<CustomEditTextWidgetUI> {
+  String editedText = "";
+
+  FocusNode focusNode = FocusNode();
+  @override
+  void initState() {
+    super.initState();
+    /// onEditTextValueChange calls after the particular field changes
+    focusNode.addListener(() {
+      if(!focusNode.hasFocus){
+        if(widget.rowFieldWidgetModel.onEditTextValueChange != null){
+          /// onEditTextValueChange calls after the particular field changes
+          widget.rowFieldWidgetModel.onEditTextValueChange!(editedText, widget.rowFieldWidgetModel);
+        }
+      }
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
     /// text form field used to initialize the edit text field
     return TextFormField(
       initialValue: widget.rowFieldWidgetModel.value == null? "" : widget.rowFieldWidgetModel.value.toString(),
+      focusNode: focusNode,
       /// providing the keyboard type
       keyboardType: widget.rowFieldWidgetModel.inputType == InputType.number? TextInputType.number: TextInputType.text,
       textAlign: TextAlign.center,
@@ -29,15 +51,25 @@ class _CustomEditTextWidgetUIState extends State<CustomEditTextWidgetUI> {
         isCollapsed: true,
       ),
       onEditingComplete: () {
+        /// focus changes when on edit is completed
+        FocusScope.of(context).requestFocus(FocusNode());
+      },
+      onTapOutside: (value){
+        /// focus changes when on tapped outside of the widget
+        FocusScope.of(context).requestFocus(FocusNode());
+      },
+      onFieldSubmitted: (value){
+        /// focus changes when on field is submitted
+        FocusScope.of(context).requestFocus(FocusNode());
+      },
+      onSaved: (value){
+        /// focus changes when on save is called
         FocusScope.of(context).requestFocus(FocusNode());
       },
       onChanged: (value) {
-        /// on change function calls on when changes has been occurred
+        /// on change method calls when changing the value of edit text field
         widget.rowFieldWidgetModel.value = value;
-        if(widget.rowFieldWidgetModel.onEditTextValueChange != null){
-          /// onEditTextValueChange calls when the particular field changes
-          widget.rowFieldWidgetModel.onEditTextValueChange!(value, widget.rowFieldWidgetModel);
-        }
+        editedText = value;
       },
     );
   }
@@ -45,5 +77,6 @@ class _CustomEditTextWidgetUIState extends State<CustomEditTextWidgetUI> {
   @override
   void dispose() {
     super.dispose();
+    focusNode.removeListener(() { });
   }
 }

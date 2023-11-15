@@ -114,9 +114,10 @@ class _MyHomePageState extends State<MyHomePage> {
           RowFieldWidgetModel(
               columnHeaderModel: columnWidgetModel.columnsList[3],
               onEditTextValueChange: (v, r){
-                // calls when change of value in edit text
+                /// calls after change of value in edit text
+                /// do something here
               },
-              value: ""
+              value: "",
           ),
 
           RowFieldWidgetModel(
@@ -153,7 +154,8 @@ class _MyHomePageState extends State<MyHomePage> {
           RowFieldWidgetModel(
               columnHeaderModel: columnWidgetModel.columnsList[3],
               onEditTextValueChange: (v, r){
-                // calls when change of value in edit text
+                // calls after change of value in edit text
+                // do something here
               },
               value: ""
           ),
@@ -192,7 +194,8 @@ class _MyHomePageState extends State<MyHomePage> {
           RowFieldWidgetModel(
               columnHeaderModel: columnWidgetModel.columnsList[3],
               onEditTextValueChange: (v, r){
-                // calls when change of value in edit text
+                /// calls after change of value in edit text
+                /// do something here
               },
               value: ""
           ),
