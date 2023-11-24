@@ -306,10 +306,15 @@ class _FlutterDataTableState extends State<FlutterDataTable> {
   selectAll(bool value, [RowWidgetModel? row]){
     if(value){
       for(RowWidgetModel rowWidgetModel in widget.rowsData){
-        if(!rowWidgetModel.isSelected){
-          /// adding row to the list
+        if(!rowWidgetModel.isSelected && rowWidgetModel.canBeSelected){
+          /// adding row to the list if the rows are enable for multi select
           rowWidgetModel.isSelected = true;
           selectedRowList.add(rowWidgetModel);
+        }
+        else {
+          /// removing the rows from the selected list if the rows are enable for multi select
+          rowWidgetModel.isSelected = false;
+          selectedRowList.remove(rowWidgetModel);
         }
       }
     }else {

@@ -1,9 +1,5 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_data_table/utils/responsive_size.dart';
-
 import '../models/row_field_widget.dart';
 
 /// this is the edit text widget for row cell
@@ -16,7 +12,7 @@ class CustomEditTextWidgetUI extends StatefulWidget {
 
 class _CustomEditTextWidgetUIState extends State<CustomEditTextWidgetUI> {
   String editedText = "";
-
+  TextEditingController controller = TextEditingController();
   FocusNode focusNode = FocusNode();
   @override
   void initState() {
@@ -35,9 +31,11 @@ class _CustomEditTextWidgetUIState extends State<CustomEditTextWidgetUI> {
 
   @override
   Widget build(BuildContext context) {
+    /// assigning initial value when the widget is built
+    controller.text = widget.rowFieldWidgetModel.value == null? "" : widget.rowFieldWidgetModel.value.toString();
     /// text form field used to initialize the edit text field
     return TextFormField(
-      initialValue: widget.rowFieldWidgetModel.value == null? "" : widget.rowFieldWidgetModel.value.toString(),
+      // initialValue: widget.rowFieldWidgetModel.value == null? "" : widget.rowFieldWidgetModel.value.toString(),
       focusNode: focusNode,
       /// providing the keyboard type
       keyboardType: widget.rowFieldWidgetModel.inputType == InputType.number? TextInputType.number: TextInputType.text,
@@ -78,5 +76,6 @@ class _CustomEditTextWidgetUIState extends State<CustomEditTextWidgetUI> {
   void dispose() {
     super.dispose();
     focusNode.removeListener(() { });
+    controller.dispose();
   }
 }

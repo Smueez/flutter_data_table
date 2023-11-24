@@ -209,7 +209,8 @@ This is the constructor of the class. Here **T** is the Generic Type. Each RowWi
         this.others,
         this.checkBoxWidgetStyle,
         this.rowClickable = false,
-        this.onRowClick
+        this.onRowClick,
+        this.canBeSelected = true,
      });
 ```
 #### Where:
@@ -219,6 +220,7 @@ This is the constructor of the class. Here **T** is the Generic Type. Each RowWi
 - **checkBoxWidgetStyle** is a **CheckBoxWidgetStyle** type. If the multiselect mode is enabled then this field is for the style of the checkbox.
 - **rowClickable** is a **boolean** type field. If you want to make your row clickable, then make this field "true". This field is "false" by default.
 - **onRowClick** is a **Function**. this function is called when the particular row is tapped.
+- **canBeSelected** is a **boolean**. This indicates if this row can be selected if multi select mode is on for the table by setting **isCheckBoxMultiSelectAllowed** to true. By default it is true.
 
 
 ## See **Example** to use the **sample code** to run a sample table

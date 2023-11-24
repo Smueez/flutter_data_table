@@ -29,13 +29,19 @@ class RowWidgetModel<T> {
   /// onRowClick is a Function. this function is called when the particular row is tapped.
   Function()? onRowClick;
 
+  /// canBeSelected is a boolean. this indicates if this row can be selected if multi select mode is on for the table by setting isCheckBoxMultiSelectAllowed to true.
+  /// By default it is true.
+  /// By setting it false will disable the row for multiselect.
+  bool canBeSelected = true;
+
   /// constructor
   RowWidgetModel({
     required this.rowFieldList,
     this.others,
     this.checkBoxWidgetStyle,
     this.rowClickable = false,
-    this.onRowClick
+    this.onRowClick,
+    this.canBeSelected = true,
   });
 }
 /// row color for the each row
