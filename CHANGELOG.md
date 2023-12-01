@@ -5,3 +5,5 @@
 ## 0.1.0
 - Updated the Text Edit Widget
 - Added row disable functionality for multi select mode
+- ## 1.0.0
+- InputFormatter updated
