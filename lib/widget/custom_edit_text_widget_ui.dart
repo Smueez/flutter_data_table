@@ -13,10 +13,12 @@ class CustomEditTextWidgetUI extends StatefulWidget {
 class _CustomEditTextWidgetUIState extends State<CustomEditTextWidgetUI> {
   String editedText = "";
   TextEditingController controller = TextEditingController();
+  List<TextInputFormatter>? inputFormatter;
   FocusNode focusNode = FocusNode();
   @override
   void initState() {
     super.initState();
+    setInputFormatter();
     /// onEditTextValueChange calls after the particular field changes
     focusNode.addListener(() {
       if(!focusNode.hasFocus){
@@ -28,6 +30,35 @@ class _CustomEditTextWidgetUIState extends State<CustomEditTextWidgetUI> {
     });
   }
 
+  setInputFormatter(){
+    if(widget.rowFieldWidgetModel.inputType == InputType.number){
+      inputFormatter = [
+        /// allow only number and dot:
+        FilteringTextInputFormatter.allow(RegExp("[0-9\\.]")),
+
+        /// avoiding multiple dot:
+        FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d*')),
+      ];
+    }
+    else if(widget.rowFieldWidgetModel.inputType == InputType.numberOnly){
+      inputFormatter = [
+        /// allow only number
+        FilteringTextInputFormatter.digitsOnly,
+      ];
+    }
+    else if(widget.rowFieldWidgetModel.inputType == InputType.numberWith2DecimalPoint){
+      inputFormatter = [
+        /// allow only number and dot:
+        FilteringTextInputFormatter.allow(RegExp("[0-9\\.]")),
+
+        /// avoiding multiple dot and for only 2 digit:
+        FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}')),
+      ];
+    }
+    else {
+      inputFormatter = null;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,11 +69,10 @@ class _CustomEditTextWidgetUIState extends State<CustomEditTextWidgetUI> {
       // initialValue: widget.rowFieldWidgetModel.value == null? "" : widget.rowFieldWidgetModel.value.toString(),
       focusNode: focusNode,
       /// providing the keyboard type
-      keyboardType: widget.rowFieldWidgetModel.inputType == InputType.number? TextInputType.number: TextInputType.text,
+      keyboardType: widget.rowFieldWidgetModel.inputType != InputType.string? TextInputType.number: TextInputType.text,
       textAlign: TextAlign.center,
-      textDirection: TextDirection.rtl,
       /// providing the input type
-      inputFormatters: widget.rowFieldWidgetModel.inputType == InputType.number? [FilteringTextInputFormatter.digitsOnly]: null,
+      inputFormatters: inputFormatter,
       decoration: const InputDecoration(
         border: OutlineInputBorder(borderSide: BorderSide(color: Colors.transparent)),
         isDense: true,

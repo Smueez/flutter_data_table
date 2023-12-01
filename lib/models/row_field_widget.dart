@@ -97,4 +97,4 @@ class RowFieldWidgetModel<T> {
 }
 /// enums
 enum RowFieldWidgetType {textWidget, editText, dropdown, clickable, currency, customWidget, empty}
-enum InputType {string, number}
+enum InputType {string, number, numberOnly, numberWith2DecimalPoint}
