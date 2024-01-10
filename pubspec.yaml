@@ -1,6 +1,6 @@
 name: flutter_data_table
 description: A new Flutter Data Table Package. By this package a developer can implement a table widget which can be highly customizable.
-version: 1.0.0
+version: 1.0.1
 homepage: https://github.com/Smueez/flutter_data_table.git
 
 environment:

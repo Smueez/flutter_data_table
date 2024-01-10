@@ -171,6 +171,9 @@ class _FlutterDataTableState extends State<FlutterDataTable> {
   /// only if multi selection is enabled
   List<RowWidgetModel> selectedRowList = [];
 
+  /// ths flag is used for select multiple row
+  bool selectedAllRowsFlag = false;
+
   @override
   void initState() {
     super.initState();
@@ -304,6 +307,7 @@ class _FlutterDataTableState extends State<FlutterDataTable> {
   /// select all rows function
   /// This function will use only when multi select is allowed
   selectAll(bool value, [RowWidgetModel? row]){
+    selectedAllRowsFlag = value;
     if(value){
       for(RowWidgetModel rowWidgetModel in widget.rowsData){
         if(!rowWidgetModel.isSelected && rowWidgetModel.canBeSelected){
@@ -313,8 +317,11 @@ class _FlutterDataTableState extends State<FlutterDataTable> {
         }
         else {
           /// removing the rows from the selected list if the rows are enable for multi select
-          rowWidgetModel.isSelected = false;
-          selectedRowList.remove(rowWidgetModel);
+          if(! selectedAllRowsFlag){
+            rowWidgetModel.isSelected = false;
+            selectedRowList.remove(rowWidgetModel);
+          }
+
         }
       }
     }else {
@@ -370,7 +377,7 @@ class _FlutterDataTableState extends State<FlutterDataTable> {
                     right: BorderSide(color: widget.columnModel.headerBorderColor?? Colors.white)
                 ):null),
             child: CustomCheckBoxWidgetUI(
-              value: widget.rowsData.length == selectedRowList.length,
+              value: selectedAllRowsFlag || widget.rowsData.length == selectedRowList.length,
               onChange: selectAll,
               activeColor: widget.columnModel.checkBoxWidgetStyle?.activeColor,
               checkColor: widget.columnModel.checkBoxWidgetStyle?.checkColor,
@@ -503,19 +510,24 @@ class _FlutterDataTableState extends State<FlutterDataTable> {
   /// Multi select mode has to be enabled for this
   selectARow(bool value, [RowWidgetModel? row]){
     if(row != null){
-
-      row.isSelected = !row.isSelected;
-      if(row.isSelected){
-        selectedRowList.add(row);
-      }
-      else{
-        if(selectedRowList.contains(row)){
-          selectedRowList.remove(row);
+      if(row.canBeSelected){
+        if(widget.rowsData.length == selectedRowList.length && widget.rowsData.isNotEmpty){
+          selectedAllRowsFlag = true;
         }
-      }
-      setState(() {
+        row.isSelected = !row.isSelected;
+        if(row.isSelected){
+          selectedRowList.add(row);
+        }
+        else{
+          if(selectedRowList.contains(row)){
+            selectedAllRowsFlag = false;
+            selectedRowList.remove(row);
+          }
+        }
+        setState(() {
 
-      });
+        });
+      }
     }
     if(widget.onRowSelectBuilder != null){
       /// calling onRowSelectBuilder

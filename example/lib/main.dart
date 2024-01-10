@@ -241,7 +241,7 @@ class _MyHomePageState extends State<MyHomePage> {
         rowsData: rows,
         // isSortAllowed: true,
         // isSerialNumberColumnAllowed: true,
-        // isCheckBoxMultiSelectAllowed: true,
+        isCheckBoxMultiSelectAllowed: true,
         colors: RowColor(color1: Colors.white, color2: Colors.grey[100]!),
         onSave: (list){
           // called when disposed
