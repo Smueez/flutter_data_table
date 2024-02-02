@@ -9,3 +9,5 @@
 - InputFormatter updated
 ## 1.0.1
 - Multi select user experience enhancement and bug fixes
+## 1.0.2
+- Multi select user experience enhancement and bug fixes

@@ -599,7 +599,7 @@ class _FlutterDataTableState extends State<FlutterDataTable> {
         /// added on click functionality according to logic
         onTap: rowWidgetModel.rowClickable
             ? selectedRowList.isEmpty? rowWidgetModel.onRowClick : (){selectARow(true, rowWidgetModel);}
-            : null,
+            :widget.isCheckBoxMultiSelectAllowed?(){selectARow(true, rowWidgetModel);} : null,
         /// added on click functionality according to logic
         /// if multi select enabled then this long press is enabled to add item in the selected list for the 1st time
         onLongPress: widget.isCheckBoxMultiSelectAllowed? (){
