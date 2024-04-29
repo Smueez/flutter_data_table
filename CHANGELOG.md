@@ -11,3 +11,5 @@
 - Multi select user experience enhancement and bug fixes
 ## 1.0.2
 - Multi select user experience enhancement and bug fixes
+## 1.1.2
+- No data widget updated with more interactive way

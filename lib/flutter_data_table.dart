@@ -231,76 +231,83 @@ class _FlutterDataTableState extends State<FlutterDataTable> {
   Widget build(BuildContext context) {
     isTakeTotalWidth();
     /// Checking if there is any data in the table
-    if(widget.columnModel.columnsList.isEmpty || widget.rowsData.isEmpty){
+    if(widget.columnModel.columnsList.isEmpty){
       return widget.noDataWidget?? const Center(child: Text("No data found"),);
     }
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Padding(
-        /// padding for the table
-        padding: widget.padding??const EdgeInsets.symmetric(horizontal: 0),
-        child: Container(
-          /// takes full width if the column size is less or equal to 4
-          width: widget.columnModel.columnsList.length <= 4 && isFixedWidthGiven? FlutterDataTableResponsive.width(100, context) : null,
-          clipBehavior: Clip.antiAlias,
 
-          /// table decoration
-          decoration: widget.tableDecoration?? BoxDecoration(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(FlutterDataTableResponsive.pixel(2, context)),
-                topRight: Radius.circular(FlutterDataTableResponsive.pixel(2, context)),
-              ),
-              border: Border.all(color: Colors.green)),
-          child: Column(
-            children: [
-              SizedBox(
-                /// takes full width if the column size is less or equal to 4
-                width: widget.columnModel.columnsList.length <= 4 && isFixedWidthGiven? FlutterDataTableResponsive.width(100, context) : null,
+    return Stack(
+      children: [
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Padding(
+            /// padding for the table
+            padding: widget.padding??const EdgeInsets.symmetric(horizontal: 0),
+            child: Container(
+              /// takes full width if the column size is less or equal to 4
+              width: widget.columnModel.columnsList.length <= 4 && isFixedWidthGiven? FlutterDataTableResponsive.width(100, context) : null,
+              clipBehavior: Clip.antiAlias,
 
-                /// column header fixed height
-                height: widget.headerHeight??FlutterDataTableResponsive.height(4, context),
+              /// table decoration
+              decoration: widget.tableDecoration?? BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(FlutterDataTableResponsive.pixel(2, context)),
+                    topRight: Radius.circular(FlutterDataTableResponsive.pixel(2, context)),
+                  ),
+                  border: Border.all(color: Colors.green)),
+              child: Column(
+                children: [
+                  SizedBox(
+                    /// takes full width if the column size is less or equal to 4
+                    width: widget.columnModel.columnsList.length <= 4 && isFixedWidthGiven? FlutterDataTableResponsive.width(100, context) : null,
 
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  /// adding column list
-                  children: columnHeaderList(),
-                ),
-              ),
-              Expanded(
-                /// pull to refresh with RefreshIndicator
-                  child: RefreshIndicator(
-                    onRefresh: ()async{
-                      /// checking if pull to refresh is allowed
-                      if(widget.isRefreshAllowed){
-                        if(widget.onRefresh != null){
-                          /// cancel all selected rows
-                          selectAll(false);
-                          /// initiate the pull to refresh
-                          widget.onRefresh!();
-                        }
-                      }
-                    },
-                    notificationPredicate: (val){
-                      /// checking if pull to refresh is allowed
-                      return widget.isRefreshAllowed;
-                    },
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.vertical,
-                      /// vertical scroll controller
-                      controller: innerVerticalController,//widget.verticalController,
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        /// adding row list
-                        children: rowList(),
-                      ),
+                    /// column header fixed height
+                    height: widget.headerHeight??FlutterDataTableResponsive.height(4, context),
+
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      /// adding column list
+                      children: columnHeaderList(),
                     ),
-                  )
+                  ),
+                  Expanded(
+                    /// pull to refresh with RefreshIndicator
+                      child: RefreshIndicator(
+                        onRefresh: ()async{
+                          /// checking if pull to refresh is allowed
+                          if(widget.isRefreshAllowed){
+                            if(widget.onRefresh != null){
+                              /// cancel all selected rows
+                              selectAll(false);
+                              /// initiate the pull to refresh
+                              widget.onRefresh!();
+                            }
+                          }
+                        },
+                        notificationPredicate: (val){
+                          /// checking if pull to refresh is allowed
+                          return widget.isRefreshAllowed;
+                        },
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.vertical,
+                          /// vertical scroll controller
+                          controller: innerVerticalController,//widget.verticalController,
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            /// adding row list
+                            children: rowList(),
+                          ),
+                        ),
+                      )
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
-      ),
+      if(widget.rowsData.isEmpty)
+      widget.noDataWidget?? const Center(child: Text("No data found"),)
+      ],
     );
   }
 
